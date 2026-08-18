@@ -2358,6 +2358,29 @@ def main() -> None:
         print("❌ Ошибка: BOT_TOKEN не найден в .env файле!")
         return
     
+    # Start simple HTTP server for Render health check
+    import threading
+    from flask import Flask
+    
+    app = Flask(__name__)
+    
+    @app.route('/')
+    def health_check():
+        return 'Bot is running', 200
+    
+    @app.route('/health')
+    def health():
+        return 'OK', 200
+    
+    def run_flask():
+        port = int(os.environ.get('PORT', 10000))
+        app.run(host='0.0.0.0', port=port, threaded=True)
+    
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+    
+    print(f"🌐 Health check server started on port {os.environ.get('PORT', 10000)}")
+    
     application = Application.builder().token(BOT_TOKEN).build()
     
     # Обработчик ошибок
