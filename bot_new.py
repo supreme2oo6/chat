@@ -2353,7 +2353,7 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
             logger.error(f"Не удалось уведомить админа об ошибке: {admin_error}")
 
 # Основная функция
-def run_bot() -> None:
+def main() -> None:
     if not BOT_TOKEN:
         print("❌ Ошибка: BOT_TOKEN не найден в .env файле!")
         return
@@ -2401,13 +2401,6 @@ def run_bot() -> None:
     application.post_init = post_init
     
     application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-def main() -> None:
-    # Run bot in separate thread to isolate event loop
-    import threading
-    bot_thread = threading.Thread(target=run_bot, daemon=False)
-    bot_thread.start()
-    bot_thread.join()
 
 if __name__ == '__main__':
     main()
