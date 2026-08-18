@@ -2353,7 +2353,7 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
             logger.error(f"Не удалось уведомить админа об ошибке: {admin_error}")
 
 # Основная функция
-def main() -> None:
+async def main() -> None:
     if not BOT_TOKEN:
         print("❌ Ошибка: BOT_TOKEN не найден в .env файле!")
         return
@@ -2416,7 +2416,7 @@ def main() -> None:
     keep_alive_thread = threading.Thread(target=run_keep_alive, daemon=True)
     keep_alive_thread.start()
     
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    await application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
