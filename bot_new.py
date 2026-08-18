@@ -2353,7 +2353,7 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
             logger.error(f"Не удалось уведомить админа об ошибке: {admin_error}")
 
 # Основная функция
-async def main() -> None:
+def main() -> None:
     if not BOT_TOKEN:
         print("❌ Ошибка: BOT_TOKEN не найден в .env файле!")
         return
@@ -2400,7 +2400,7 @@ async def main() -> None:
     
     application.post_init = post_init
     
-    await application.run_polling(allowed_updates=Update.ALL_TYPES)
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
