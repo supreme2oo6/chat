@@ -2353,21 +2353,10 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
             logger.error(f"Не удалось уведомить админа об ошибке: {admin_error}")
 
 # Основная функция
-def main() -> None:
+def run_bot() -> None:
     if not BOT_TOKEN:
         print("❌ Ошибка: BOT_TOKEN не найден в .env файле!")
         return
-    
-    # Fix for Python 3.14 - use custom event loop policy
-    import asyncio
-    import sys
-    if sys.version_info >= (3, 14):
-        # Use Windows event loop policy on all platforms for Python 3.14
-        try:
-            asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-        except AttributeError:
-            # Fallback for non-Windows systems
-            asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
     
     application = Application.builder().token(BOT_TOKEN).build()
     
@@ -2412,6 +2401,13 @@ def main() -> None:
     application.post_init = post_init
     
     application.run_polling(allowed_updates=Update.ALL_TYPES)
+
+def main() -> None:
+    # Run bot in separate thread to isolate event loop
+    import threading
+    bot_thread = threading.Thread(target=run_bot, daemon=False)
+    bot_thread.start()
+    bot_thread.join()
 
 if __name__ == '__main__':
     main()
