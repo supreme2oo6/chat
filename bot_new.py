@@ -2400,22 +2400,6 @@ async def main() -> None:
     
     application.post_init = post_init
     
-    # Keep-alive mechanism for Render free tier
-    async def keep_alive():
-        while True:
-            await asyncio.sleep(300)  # Ping every 5 minutes
-            logger.info("🔄 Keep-alive ping sent")
-    
-    # Start keep-alive task
-    import threading
-    def run_keep_alive():
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(keep_alive())
-    
-    keep_alive_thread = threading.Thread(target=run_keep_alive, daemon=True)
-    keep_alive_thread.start()
-    
     await application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == '__main__':
