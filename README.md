@@ -78,3 +78,41 @@ python test.py
 ## 📞 Поддержка
 
 Если возникли проблемы, проверьте логи или обратитесь к админу.
+
+## 🚀 Развертывание на Render (бесплатно)
+
+### Подготовка:
+
+1. **Зарегистрируйтесь на [Render.com](https://render.com)**
+2. **Создайте новый репозиторий на GitHub** и загрузите туда проект
+3. **Получите новый BOT_TOKEN** от [@BotFather](https://t.me/botfather):
+   - Выберите вашего бота
+   - Нажмите "Revoke current token"
+   - Получите новый токен
+
+### Развертывание:
+
+1. **Зайдите на Render.com** → "New +" → "Web Service"
+2. **Подключите GitHub репозиторий** с проектом
+3. **Настройте Build & Deploy**:
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `python bot_new.py`
+   - **Runtime**: Python 3
+
+4. **Добавьте Environment Variables**:
+   - `BOT_TOKEN`: ваш новый токен от BotFather
+   - `ADMIN_ID`: ваш Telegram ID
+   - `DATABASE_PATH`: `/opt/render/project/src/bot_data/bot.db`
+
+5. **Нажмите "Create Web Service"**
+
+### Важно:
+
+- Бесплатный план Render спит после 15 минут неактивности, но бот имеет keep-alive механизм
+- База данных SQLite сохраняется в файловой системе Render
+- Для продакшена рекомендуется использовать PostgreSQL
+
+### Мониторинг:
+
+- Смотрите логи в Render Dashboard
+- Бот автоматически перезапускается при ошибках

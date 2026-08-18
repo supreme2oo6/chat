@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: telegram-chat-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot_new.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_ID
+        sync: false
+      - key: DATABASE_PATH
+        value: /opt/render/project/src/bot_data/bot.db
+    plan: free
